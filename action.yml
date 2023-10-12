@@ -54,7 +54,7 @@ runs:
         docker-file-target: ${{ inputs.pull-request-dockerfile-target }}
 
     - name: Build & deploy to staging
-      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/${{ inputs.staging-branch-name }}' }}
+      if: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.staging-branch-name) }}
       uses: likvido/action-release@v1
       with:
         docker-working-directory: ${{ inputs.docker-working-directory }}
@@ -71,7 +71,7 @@ runs:
         azure-service-principal-subscription: ${{ inputs.azure-service-principal-subscription }}
 
     - name: Build & deploy to production
-      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/${{ inputs.production-branch-name }}' }}
+      if: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.production-branch-name) }}
       uses: likvido/action-release@v1
       with:
         docker-working-directory: ${{ inputs.docker-working-directory }}
