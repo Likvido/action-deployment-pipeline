@@ -32,6 +32,10 @@ jobs:
         deployment-path: src/Likvido.AccountingDebtorDeletedProcessor/deployment.yml
         app-name: accounting-debtor-deleted-processor
         kubernetes-namespace: default
+        azure-service-principal-id: ${{ secrets.AZURE_SERVICE_PRINCIPAL_ID }}
+        azure-service-principal-tenant: ${{ secrets.AZURE_SERVICE_PRINCIPAL_TENANT }}
+        azure-service-principal-password: ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}
+        azure-service-principal-subscription: ${{ secrets.AZURE_SERVICE_PRINCIPAL_SUBSCRIPTION }}
 ```
 
 
