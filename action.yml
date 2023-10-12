@@ -8,7 +8,7 @@ inputs:
   production-branch-name:
     description: 'The name of the production branch.'
     required: true
-  pull-request-docker-file-target:
+  pull-request-dockerfile-target:
     description: 'The target for the Dockerfile during pull request builds.'
     required: true
   docker-working-directory:
@@ -51,7 +51,7 @@ runs:
       with:
         working-directory: ${{ inputs.docker-working-directory }}
         docker-file: ${{ inputs.dockerfile-relative-path }}
-        docker-file-target: ${{ inputs.pull-request-docker-file-target }}
+        docker-file-target: ${{ inputs.pull-request-dockerfile-target }}
 
     - name: Build & deploy to staging
       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/${{ inputs.staging-branch-name }}' }}

@@ -26,7 +26,7 @@ jobs:
       with:
         staging-branch-name: develop
         production-branch-name: master
-        pull-request-docker-file-target: build
+        pull-request-dockerfile-target: build
         docker-working-directory: src
         dockerfile-relative-path: Likvido.AccountingDebtorDeletedProcessor/Dockerfile
         deployment-path: src/Likvido.AccountingDebtorDeletedProcessor/deployment.yml
