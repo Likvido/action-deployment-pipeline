@@ -74,7 +74,7 @@ runs:
         environment: staging
         kubernetes-namespace: ${{ inputs.kubernetes-namespace }}
         acr-registry: likvido
-        azure-service-principal-id: ${{ inputs.azure-service-principdal-id }}
+        azure-service-principal-id: ${{ inputs.azure-service-principal-id }}
         azure-service-principal-password: ${{ inputs.azure-service-principal-password }}
         gitops-repo-url: 'https://github.com/Likvido/Likvido.Kubernetes'
         github-app-id: ${{ inputs.github-app-id }}
