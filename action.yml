@@ -41,6 +41,13 @@ inputs:
   github-app-installation-id:
     description: 'The installation id of the Github app to use for updating the GitOps repo'
     required: true
+  # Temp inputs
+  azure-service-principal-tenant:
+    description: 'The tenant of the service principal to use when pushing the image and deploying the app'
+    required: true
+  azure-service-principal-subscription:
+    description: 'The subscription of the service principal to use when pushing the image and deploying the app'
+    required: true
 
 runs:
   using: "composite"
@@ -58,7 +65,7 @@ runs:
 
     - name: Build & deploy to staging
       if: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.staging-branch-name) }}
-      uses: likvido/action-release@v2.3
+      uses: likvido/action-release@v2.4
       with:
         docker-working-directory: ${{ inputs.docker-working-directory }}
         docker-file-relative: ${{ inputs.dockerfile-relative-path }}
@@ -76,11 +83,13 @@ runs:
         # Temp values
         aks-cluster-name: staging
         aks-cluster-resource-group: kubernetes-staging
+        azure-service-principal-tenant: ${{ inputs.azure-service-principal-tenant }}
+        azure-service-principal-subscription: ${{ inputs.azure-service-principal-subscription }}
         force: true
 
     - name: Build & deploy to production
       if: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.production-branch-name) }}
-      uses: likvido/action-release@v2.3
+      uses: likvido/action-release@v2.4
       with:
         docker-working-directory: ${{ inputs.docker-working-directory }}
         docker-file-relative: ${{ inputs.dockerfile-relative-path }}
@@ -98,4 +107,6 @@ runs:
         # Temp values
         aks-cluster-name: production
         aks-cluster-resource-group: kubernetes-production
+        azure-service-principal-tenant: ${{ inputs.azure-service-principal-tenant }}
+        azure-service-principal-subscription: ${{ inputs.azure-service-principal-subscription }}
         force: true
