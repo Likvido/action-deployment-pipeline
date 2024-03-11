@@ -32,6 +32,15 @@ inputs:
   azure-service-principal-password:
     description: 'Azure Service Principal Password'
     required: true
+  github-app-id:
+    description: 'The ID of the Github app to use for updating the GitOps repo'
+    required: true
+  github-app-private-key-base64:
+    description: 'The base64 encoded private key of the Github app to use for updating the GitOps repo'
+    required: true
+  github-app-installation-id:
+    description: 'The installation id of the Github app to use for updating the GitOps repo'
+    required: true
 
 runs:
   using: "composite"
@@ -58,12 +67,12 @@ runs:
         environment: staging
         kubernetes-namespace: ${{ inputs.kubernetes-namespace }}
         acr-registry: likvido
-        azure-service-principal-id: ${{ inputs.azure-service-principal-id }}
+        azure-service-principal-id: ${{ inputs.azure-service-principdal-i }}
         azure-service-principal-password: ${{ inputs.azure-service-principal-password }}
         gitops-repo-url: 'https://github.com/Likvido/Likvido.Kubernetes'
-        github-app-id: ${{ secrets.LIKVIDO_DEPLOYMENT_PUSHER_APP_ID }}
-        github-app-private-key-base64: ${{ secrets.LIKVIDO_DEPLOYMENT_PUSHER_PRIVATE_KEY_BASE64 }}
-        github-app-installation-id: ${{ secrets.LIKVIDO_DEPLOYMENT_PUSHER_INSTALLATION_ID }}
+        github-app-id: ${{ inputs.github-app-id }}
+        github-app-private-key-base64: ${{ inputs.github-app-private-key-base64 }}
+        github-app-installation-id: ${{ inputs.github-app-installation-id }}
         # Temp values
         aks-cluster-name: staging
         aks-cluster-resource-group: kubernetes-staging
@@ -83,9 +92,9 @@ runs:
         azure-service-principal-id: ${{ inputs.azure-service-principal-id }}
         azure-service-principal-password: ${{ inputs.azure-service-principal-password }}
         gitops-repo-url: 'https://github.com/Likvido/Likvido.Kubernetes'
-        github-app-id: ${{ secrets.LIKVIDO_DEPLOYMENT_PUSHER_APP_ID }}
-        github-app-private-key-base64: ${{ secrets.LIKVIDO_DEPLOYMENT_PUSHER_PRIVATE_KEY_BASE64 }}
-        github-app-installation-id: ${{ secrets.LIKVIDO_DEPLOYMENT_PUSHER_INSTALLATION_ID }}
+        github-app-id: ${{ inputs.github-app-id }}
+        github-app-private-key-base64: ${{ inputs.github-app-private-key-base64 }}
+        github-app-installation-id: ${{ inputs.github-app-installation-id }}
         # Temp values
         aks-cluster-name: production
         aks-cluster-resource-group: kubernetes-production
