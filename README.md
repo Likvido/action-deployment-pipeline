@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Unified Build & Deploy
-      uses: likvido/action-deployment-pipeline@v1
+      uses: likvido/action-deployment-pipeline@v3
       with:
         staging-branch-name: develop
         production-branch-name: master
@@ -33,9 +33,7 @@ jobs:
         app-name: accounting-debtor-deleted-processor
         kubernetes-namespace: default
         azure-service-principal-id: ${{ secrets.AZURE_SERVICE_PRINCIPAL_ID }}
-        azure-service-principal-tenant: ${{ secrets.AZURE_SERVICE_PRINCIPAL_TENANT }}
         azure-service-principal-password: ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}
-        azure-service-principal-subscription: ${{ secrets.AZURE_SERVICE_PRINCIPAL_SUBSCRIPTION }}
 ```
 
 

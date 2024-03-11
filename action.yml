@@ -29,14 +29,8 @@ inputs:
   azure-service-principal-id:
     description: 'Azure Service Principal ID'
     required: true
-  azure-service-principal-tenant:
-    description: 'Azure Service Principal Tenant'
-    required: true
   azure-service-principal-password:
     description: 'Azure Service Principal Password'
-    required: true
-  azure-service-principal-subscription:
-    description: 'Azure Service Principal Subscription'
     required: true
 
 runs:
@@ -55,36 +49,36 @@ runs:
 
     - name: Build & deploy to staging
       if: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.staging-branch-name) }}
-      uses: likvido/action-release@v2
+      uses: likvido/action-release@v3
       with:
         docker-working-directory: ${{ inputs.docker-working-directory }}
         docker-file-relative: ${{ inputs.dockerfile-relative-path }}
         deployment-file: ${{ inputs.deployment-path }}
         app-name: ${{ inputs.app-name }}
+        environment: staging
         kubernetes-namespace: ${{ inputs.kubernetes-namespace }}
         acr-registry: likvido
-        aks-cluster-name: staging
-        aks-cluster-resource-group: kubernetes-staging
         azure-service-principal-id: ${{ inputs.azure-service-principal-id }}
-        azure-service-principal-tenant: ${{ inputs.azure-service-principal-tenant }}
         azure-service-principal-password: ${{ inputs.azure-service-principal-password }}
-        azure-service-principal-subscription: ${{ inputs.azure-service-principal-subscription }}
-        force: true
+        gitops-repo-url: 'https://github.com/Likvido/Likvido.Kubernetes'
+        github-app-id: ${{ secrets.LIKVIDO_DEPLOYMENT_PUSHER_APP_ID }}
+        github-app-private-key-base64: ${{ secrets.LIKVIDO_DEPLOYMENT_PUSHER_PRIVATE_KEY_BASE64 }}
+        github-app-installation-id: ${{ secrets.LIKVIDO_DEPLOYMENT_PUSHER_INSTALLATION_ID }}
 
     - name: Build & deploy to production
       if: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.production-branch-name) }}
-      uses: likvido/action-release@v2
+      uses: likvido/action-release@v3
       with:
         docker-working-directory: ${{ inputs.docker-working-directory }}
         docker-file-relative: ${{ inputs.dockerfile-relative-path }}
         deployment-file: ${{ inputs.deployment-path }}
         app-name: ${{ inputs.app-name }}
+        environment: production
         kubernetes-namespace: ${{ inputs.kubernetes-namespace }}
         acr-registry: likvido
-        aks-cluster-name: production
-        aks-cluster-resource-group: kubernetes-production
         azure-service-principal-id: ${{ inputs.azure-service-principal-id }}
-        azure-service-principal-tenant: ${{ inputs.azure-service-principal-tenant }}
         azure-service-principal-password: ${{ inputs.azure-service-principal-password }}
-        azure-service-principal-subscription: ${{ inputs.azure-service-principal-subscription }}
-        force: true
+        gitops-repo-url: 'https://github.com/Likvido/Likvido.Kubernetes'
+        github-app-id: ${{ secrets.LIKVIDO_DEPLOYMENT_PUSHER_APP_ID }}
+        github-app-private-key-base64: ${{ secrets.LIKVIDO_DEPLOYMENT_PUSHER_PRIVATE_KEY_BASE64 }}
+        github-app-installation-id: ${{ secrets.LIKVIDO_DEPLOYMENT_PUSHER_INSTALLATION_ID }}
