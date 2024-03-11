@@ -65,7 +65,7 @@ runs:
 
     - name: Build & deploy to staging
       if: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.staging-branch-name) }}
-      uses: likvido/action-release@v2.5
+      uses: likvido/action-release@v2.6
       with:
         docker-working-directory: ${{ inputs.docker-working-directory }}
         docker-file-relative: ${{ inputs.dockerfile-relative-path }}
@@ -89,7 +89,7 @@ runs:
 
     - name: Build & deploy to production
       if: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.production-branch-name) }}
-      uses: likvido/action-release@v2.5
+      uses: likvido/action-release@v2.6
       with:
         docker-working-directory: ${{ inputs.docker-working-directory }}
         docker-file-relative: ${{ inputs.dockerfile-relative-path }}
