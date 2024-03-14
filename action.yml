@@ -41,6 +41,9 @@ inputs:
   github-app-installation-id:
     description: 'The installation id of the Github app to use for updating the GitOps repo'
     required: true
+  gitops-deployment-file:
+    description: 'The path to a file in the GitOps repo you want to update'
+    required: false
   # Temp inputs
   azure-service-principal-tenant:
     description: 'The tenant of the service principal to use when pushing the image and deploying the app'
@@ -65,7 +68,7 @@ runs:
 
     - name: Build & deploy to staging
       if: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.staging-branch-name) }}
-      uses: likvido/action-release@v2.22
+      uses: likvido/action-release@v2.23
       with:
         docker-working-directory: ${{ inputs.docker-working-directory }}
         docker-file-relative: ${{ inputs.dockerfile-relative-path }}
@@ -80,6 +83,7 @@ runs:
         github-app-id: ${{ inputs.github-app-id }}
         github-app-private-key-base64: ${{ inputs.github-app-private-key-base64 }}
         github-app-installation-id: ${{ inputs.github-app-installation-id }}
+        gitops-deployment-file: ${{ inputs.gitops-deployment-file }}
         # Temp values
         aks-cluster-name: staging
         aks-cluster-resource-group: kubernetes-staging
@@ -90,7 +94,7 @@ runs:
 
     - name: Build & deploy to production
       if: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.production-branch-name) }}
-      uses: likvido/action-release@v2.22
+      uses: likvido/action-release@v2.23
       with:
         docker-working-directory: ${{ inputs.docker-working-directory }}
         docker-file-relative: ${{ inputs.dockerfile-relative-path }}
@@ -105,6 +109,7 @@ runs:
         github-app-id: ${{ inputs.github-app-id }}
         github-app-private-key-base64: ${{ inputs.github-app-private-key-base64 }}
         github-app-installation-id: ${{ inputs.github-app-installation-id }}
+        gitops-deployment-file: ${{ inputs.gitops-deployment-file }}
         # Temp values
         aks-cluster-name: production
         aks-cluster-resource-group: kubernetes-production
