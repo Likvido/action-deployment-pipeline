@@ -83,7 +83,7 @@ runs:
         github-app-id: ${{ inputs.github-app-id }}
         github-app-private-key-base64: ${{ inputs.github-app-private-key-base64 }}
         github-app-installation-id: ${{ inputs.github-app-installation-id }}
-        gitops-deployment-file: staging/${{ inputs.gitops-deployment-file }}
+        gitops-deployment-file: ${{ inputs.gitops-deployment-file != '' && ('staging/' + inputs.gitops-deployment-file) || '' }}
         # Temp values
         aks-cluster-name: staging
         aks-cluster-resource-group: kubernetes-staging
@@ -109,7 +109,7 @@ runs:
         github-app-id: ${{ inputs.github-app-id }}
         github-app-private-key-base64: ${{ inputs.github-app-private-key-base64 }}
         github-app-installation-id: ${{ inputs.github-app-installation-id }}
-        gitops-deployment-file: production/${{ inputs.gitops-deployment-file }}
+        gitops-deployment-file: ${{ inputs.gitops-deployment-file != '' && ('production/' + inputs.gitops-deployment-file) || '' }}
         # Temp values
         aks-cluster-name: production
         aks-cluster-resource-group: kubernetes-production
