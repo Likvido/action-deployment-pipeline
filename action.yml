@@ -116,3 +116,4 @@ runs:
         azure-service-principal-tenant: ${{ inputs.azure-service-principal-tenant }}
         azure-service-principal-subscription: ${{ inputs.azure-service-principal-subscription }}
         force: true
+        disable-direct-deployment: true
