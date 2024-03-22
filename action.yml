@@ -17,9 +17,6 @@ inputs:
   dockerfile-relative-path:
     description: 'The relative path to the Dockerfile.'
     required: true
-  deployment-path:
-    description: 'The path to the deployment configuration file.'
-    required: true
   app-name:
     description: 'The name of the application.'
     required: true
@@ -44,13 +41,6 @@ inputs:
   gitops-deployment-file:
     description: 'The path to a file in the GitOps repo you want to update'
     required: false
-  # Temp inputs
-  azure-service-principal-tenant:
-    description: 'The tenant of the service principal to use when pushing the image and deploying the app'
-    required: true
-  azure-service-principal-subscription:
-    description: 'The subscription of the service principal to use when pushing the image and deploying the app'
-    required: true
 
 runs:
   using: "composite"
@@ -68,11 +58,10 @@ runs:
 
     - name: Build & deploy to staging
       if: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.staging-branch-name) }}
-      uses: likvido/action-release@v2.24
+      uses: likvido/action-release@v2.25
       with:
         docker-working-directory: ${{ inputs.docker-working-directory }}
         docker-file-relative: ${{ inputs.dockerfile-relative-path }}
-        deployment-file: ${{ inputs.deployment-path }}
         app-name: ${{ inputs.app-name }}
         environment: staging
         kubernetes-namespace: ${{ inputs.kubernetes-namespace }}
@@ -84,21 +73,13 @@ runs:
         github-app-private-key-base64: ${{ inputs.github-app-private-key-base64 }}
         github-app-installation-id: ${{ inputs.github-app-installation-id }}
         gitops-deployment-file: ${{ inputs.gitops-deployment-file != '' && format('staging/{0}', inputs.gitops-deployment-file) || '' }}
-        # Temp values
-        aks-cluster-name: staging
-        aks-cluster-resource-group: kubernetes-staging
-        azure-service-principal-tenant: ${{ inputs.azure-service-principal-tenant }}
-        azure-service-principal-subscription: ${{ inputs.azure-service-principal-subscription }}
-        force: true
-        disable-direct-deployment: true
 
     - name: Build & deploy to production
       if: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.production-branch-name) }}
-      uses: likvido/action-release@v2.24
+      uses: likvido/action-release@v2.25
       with:
         docker-working-directory: ${{ inputs.docker-working-directory }}
         docker-file-relative: ${{ inputs.dockerfile-relative-path }}
-        deployment-file: ${{ inputs.deployment-path }}
         app-name: ${{ inputs.app-name }}
         environment: production
         kubernetes-namespace: ${{ inputs.kubernetes-namespace }}
@@ -110,10 +91,3 @@ runs:
         github-app-private-key-base64: ${{ inputs.github-app-private-key-base64 }}
         github-app-installation-id: ${{ inputs.github-app-installation-id }}
         gitops-deployment-file: ${{ inputs.gitops-deployment-file != '' && format('production/{0}', inputs.gitops-deployment-file) || '' }}
-        # Temp values
-        aks-cluster-name: production
-        aks-cluster-resource-group: kubernetes-production
-        azure-service-principal-tenant: ${{ inputs.azure-service-principal-tenant }}
-        azure-service-principal-subscription: ${{ inputs.azure-service-principal-subscription }}
-        force: true
-        disable-direct-deployment: true
