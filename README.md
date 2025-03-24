@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Unified Build & Deploy
-      uses: likvido/action-deployment-pipeline@v3
+      uses: likvido/action-deployment-pipeline@v3.2
       with:
         staging-branch-name: develop
         production-branch-name: master
