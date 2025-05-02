@@ -57,7 +57,7 @@ runs:
         docker-file-target: ${{ inputs.pull-request-dockerfile-target }}
 
     - name: Build & deploy to staging
-      if: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.staging-branch-name) }}
+      if: ${{ ( github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.staging-branch-name) ) || (github.event_name == 'workflow_dispatch') }}
       uses: likvido/action-release@v3.2
       with:
         docker-working-directory: ${{ inputs.docker-working-directory }}
