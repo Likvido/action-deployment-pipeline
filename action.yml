@@ -50,7 +50,7 @@ runs:
 
     - name: Build & test (PR scenario)
       if: ${{ github.event_name == 'pull_request' }}
-      uses: likvido/action-pr@v1.1
+      uses: likvido/action-pr@v1.2
       with:
         working-directory: ${{ inputs.docker-working-directory }}
         docker-file: ${{ inputs.dockerfile-relative-path }}
