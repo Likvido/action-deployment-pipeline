@@ -41,6 +41,10 @@ inputs:
   gitops-deployment-file:
     description: 'The path to a file in the GitOps repo you want to update'
     required: false
+  use-registry-cache:
+    description: 'Enable registry-based build cache for faster builds'
+    required: false
+    default: 'false'
 
 runs:
   using: "composite"
@@ -50,15 +54,20 @@ runs:
 
     - name: Build & test (PR scenario)
       if: ${{ github.event_name == 'pull_request' }}
-      uses: likvido/action-pr@v1.3
+      uses: likvido/action-pr@v1.4
       with:
         working-directory: ${{ inputs.docker-working-directory }}
         docker-file: ${{ inputs.dockerfile-relative-path }}
         docker-file-target: ${{ inputs.pull-request-dockerfile-target }}
+        use-registry-cache: ${{ inputs.use-registry-cache }}
+        app-name: ${{ inputs.app-name }}
+        acr-registry: likvido
+        azure-service-principal-id: ${{ inputs.azure-service-principal-id }}
+        azure-service-principal-password: ${{ inputs.azure-service-principal-password }}
 
     - name: Build & deploy to staging
       if: ${{ ( github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.staging-branch-name) ) || (github.event_name == 'workflow_dispatch') }}
-      uses: likvido/action-release@v3.8
+      uses: likvido/action-release@v3.9
       with:
         docker-working-directory: ${{ inputs.docker-working-directory }}
         docker-file-relative: ${{ inputs.dockerfile-relative-path }}
@@ -73,10 +82,11 @@ runs:
         github-app-private-key-base64: ${{ inputs.github-app-private-key-base64 }}
         github-app-installation-id: ${{ inputs.github-app-installation-id }}
         gitops-deployment-file: ${{ inputs.gitops-deployment-file != '' && format('staging/{0}', inputs.gitops-deployment-file) || '' }}
+        use-registry-cache: ${{ inputs.use-registry-cache }}
 
     - name: Build & deploy to production
       if: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.production-branch-name) }}
-      uses: likvido/action-release@v3.8
+      uses: likvido/action-release@v3.9
       with:
         docker-working-directory: ${{ inputs.docker-working-directory }}
         docker-file-relative: ${{ inputs.dockerfile-relative-path }}
@@ -91,3 +101,4 @@ runs:
         github-app-private-key-base64: ${{ inputs.github-app-private-key-base64 }}
         github-app-installation-id: ${{ inputs.github-app-installation-id }}
         gitops-deployment-file: ${{ inputs.gitops-deployment-file != '' && format('production/{0}', inputs.gitops-deployment-file) || '' }}
+        use-registry-cache: ${{ inputs.use-registry-cache }}
