@@ -34,7 +34,10 @@ jobs:
         kubernetes-namespace: default
         azure-service-principal-id: ${{ secrets.AZURE_SERVICE_PRINCIPAL_ID }}
         azure-service-principal-password: ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}
+        jira-token: ${{ secrets.JIRA_SDOP_TOKEN }}
 ```
+
+Pass `jira-token` to enable reporting every production deploy to Visma's ENGP/SDOP Jira project (DORA metrics) via [likvido/action-sdop-reporter](https://github.com/Likvido/action-sdop-reporter). Omit it to skip reporting.
 
 
 # Releasing new version
