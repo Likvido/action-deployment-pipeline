@@ -116,6 +116,7 @@ runs:
 
     - name: Report production deployment to Visma ENGP/SDOP
       if: ${{ always() && github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.production-branch-name) && inputs.jira-token != '' }}
+      continue-on-error: true
       uses: likvido/action-sdop-reporter@v1
       with:
         jira-token: ${{ inputs.jira-token }}
