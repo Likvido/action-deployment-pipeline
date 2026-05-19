@@ -124,4 +124,4 @@ runs:
         repo-name: ${{ github.repository }}
         deployment-start: ${{ steps.sdop_start.outputs.ts }}
         deployment-status: ${{ steps.prod_deploy.outcome }}
-        exclude-from-metrics: 'true'   # Flip to 'false' once Visma has reviewed our onboarding.
+        exclude-from-metrics: 'false'   # Visma onboarding approved; data now counts toward ENGP metrics.
